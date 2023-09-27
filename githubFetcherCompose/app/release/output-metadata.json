@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.famoco.app2apptoolscompose",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 23031075,
+      "versionName": "1.1.0",
+      "outputFile": "Famocopayapp2apptools-Compose-release-1.1.0.apk"
+    }
+  ],
+  "elementType": "File"
+}

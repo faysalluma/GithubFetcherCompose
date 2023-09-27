@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name_title">Github fetcher</string>
+    <string name="enter_your_query">Enter your query</string>
+    <string name="feature_failure">Feature Failure</string>
+    <string name="branches">Branches</string>
+    <string name="contributors">Contributors</string>
+    <string name="action_settings">Settings</string>
+</resources>
