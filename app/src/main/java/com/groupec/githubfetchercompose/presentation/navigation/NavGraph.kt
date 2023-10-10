@@ -9,8 +9,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.google.gson.Gson
+import com.groupec.githubfetchercompose.data.dto.ContributorDTO
 import com.groupec.githubfetchercompose.data.dto.RepositoryDTO
 import com.groupec.githubfetchercompose.presentation.components.detail.DetailScreen
+import com.groupec.githubfetchercompose.presentation.components.detailcontributor.DetailContributorScreen
 import com.groupec.githubfetchercompose.presentation.components.home.HomeScreen
 
 @Composable
@@ -41,8 +43,31 @@ fun NavGraph(
         ) { backStack ->
             val repository = backStack.arguments?.getParcelable<RepositoryDTO>("repository")
             DetailScreen().Screen(
-                params = repository?.let { DetailScreen.Params(it) },
+                params = repository?.let { DetailScreen.Params(it){ contributor ->
+                        val jsonTransaction = Uri.encode(Gson().toJson(contributor))
+                        navController.navigate(NavigationScreen.DetailContributor.route.plus("/${jsonTransaction}"))
+                    }
+                },
                 navigationScreen = NavigationScreen.Detail,
+                activity = activity
+            )
+        }
+        composable(NavigationScreen.DetailContributor.route.plus("/{contributor}"),
+            arguments = mutableListOf(
+                navArgument("contributor") {
+                    type = ContributorDTO.NavigationType
+                    nullable = false
+                }
+            )
+        ) { backStack ->
+            val contributor = backStack.arguments?.getParcelable<ContributorDTO>("contributor")
+            DetailContributorScreen().Screen(
+                params = contributor?.let {
+                    DetailContributorScreen.Params(it){
+                        navController.popBackStack()
+                    }
+                },
+                navigationScreen = NavigationScreen.DetailContributor,
                 activity = activity
             )
         }

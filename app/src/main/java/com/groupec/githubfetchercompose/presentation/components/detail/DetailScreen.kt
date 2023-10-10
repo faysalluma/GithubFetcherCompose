@@ -1,6 +1,5 @@
 package com.groupec.githubfetchercompose.presentation.components.detail
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Icon
@@ -15,12 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -32,6 +28,7 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.groupec.githubfetchercompose.R
+import com.groupec.githubfetchercompose.data.dto.ContributorDTO
 import com.groupec.githubfetchercompose.data.dto.RepositoryDTO
 import com.groupec.githubfetchercompose.presentation.activities.BaseScreen
 import com.groupec.githubfetchercompose.presentation.components.detail.branch.BranchTabContent
@@ -43,7 +40,8 @@ import kotlinx.coroutines.launch
 
 class DetailScreen : BaseScreen<DetailScreen.Params>() {
     private var viewModel: DetailViewModel? = null
-    var repository: RepositoryDTO? = null
+    private var repository: RepositoryDTO? = null
+    private var onNext: ((ContributorDTO)-> Unit) ? =  null
 
     // All variables
 
@@ -51,6 +49,7 @@ class DetailScreen : BaseScreen<DetailScreen.Params>() {
     override fun setParameters(params: Params?) {
         params?.let {
             repository = it.repository
+            onNext = it.onNext
         }
     }
 
@@ -149,7 +148,7 @@ class DetailScreen : BaseScreen<DetailScreen.Params>() {
             when (index) {
                 // Calling tab content screen
                 0 -> BranchTabContent()
-                1 -> ContributorTabContent()
+                1 -> ContributorTabContent(onNext)
             }
         }
     }
@@ -168,5 +167,5 @@ class DetailScreen : BaseScreen<DetailScreen.Params>() {
         }
     }
 
-    data class Params(val repository: RepositoryDTO)
+    data class Params(val repository: RepositoryDTO, val onNext: (ContributorDTO) -> Unit)
 }

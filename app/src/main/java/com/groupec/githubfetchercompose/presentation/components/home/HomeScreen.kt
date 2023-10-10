@@ -12,6 +12,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -52,13 +53,13 @@ class HomeScreen : BaseScreen<HomeScreen.Params>() {
         val context = LocalContext.current
 
         // Mutable vars
-        val loadingItems = remember { mutableStateOf(true) }
+        val loadingItems = rememberSaveable { mutableStateOf(true) }
 
         viewModel?.error?.observeAsState()?.value?.let {
             loadingItems.value = true
             when (it) {
                 is Failure.NetworkFailure -> {
-                    LaunchedEffect(Unit) {
+                    LaunchedEffect(loadingItems) {
                         Toast.makeText(context, it.msg, Toast.LENGTH_LONG).show()
                     }
                 }

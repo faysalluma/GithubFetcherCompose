@@ -15,14 +15,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.groupec.githubfetchercompose.R
+import com.groupec.githubfetchercompose.data.dto.ContributorDTO
 import com.groupec.githubfetchercompose.presentation.theme.Green
 import com.groupec.githubfetchercompose.utils.Failure
-import com.groupec.githubfetchercompose.utils.components.BranchList
 import com.groupec.githubfetchercompose.utils.components.ContributorList
 
 
 @Composable
-fun ContributorTabContent() {
+fun ContributorTabContent(onNext: ((ContributorDTO) -> Unit)?) {
     // Get context and my viewModel
     val context = LocalContext.current
     val viewModel: ContributorViewModel = hiltViewModel()
@@ -54,8 +54,8 @@ fun ContributorTabContent() {
         // Response viewModels
         viewModel?.contributors?.observeAsState()?.value?.let {
             loadingItems.value = false
-            ContributorList(items = it) {
-
+            ContributorList(items = it) { contributor ->
+                onNext?.let { it (contributor) }
             }
         }
 

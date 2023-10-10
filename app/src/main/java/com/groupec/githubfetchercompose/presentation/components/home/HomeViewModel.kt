@@ -1,6 +1,7 @@
 package com.groupec.githubfetchercompose.presentation.components.home
 
 import androidx.lifecycle.*
+import com.groupec.famocopayapp2apptoolscompose.utils.SingleLiveEvent
 import com.groupec.githubfetchercompose.di.DispatcherDefault
 import com.groupec.githubfetchercompose.domain.usecases.GetRepositoryStateUseCase
 import com.groupec.githubfetchercompose.domain.usecases.GetRepositoryTaskUseCase
@@ -18,8 +19,8 @@ class HomeViewModel @Inject constructor (
 ) : ViewModel() {
 
     // Livedatas
-    private val _error = MutableLiveData<Failure?>(null)
-    val error: LiveData<Failure?> = _error
+    private val _error = SingleLiveEvent<Failure?>(null)
+    val error: MutableLiveData<Failure?> = _error
 
     // Data Flows
     val repositories = getRepositoryStateUseCase.observe(viewModelScope.coroutineContext+ defaultDispatcher).map{ it?.right()}
