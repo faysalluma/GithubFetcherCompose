@@ -2,12 +2,16 @@ package com.groupec.githubfetchercompose.presentation.navigation
 
 import android.app.Activity
 import android.net.Uri
+import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.facebook.flipper.plugins.navigation.NavigationFlipperPlugin
 import com.google.gson.Gson
 import com.groupec.githubfetchercompose.data.dto.ContributorDTO
 import com.groupec.githubfetchercompose.data.dto.RepositoryDTO
@@ -15,12 +19,28 @@ import com.groupec.githubfetchercompose.presentation.components.detail.DetailScr
 import com.groupec.githubfetchercompose.presentation.components.detailcontributor.DetailContributorScreen
 import com.groupec.githubfetchercompose.presentation.components.home.HomeScreen
 
+
+class FlipperNavigationLogger(private val flipperPlugin: NavigationFlipperPlugin) : NavController.OnDestinationChangedListener {
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?
+    ) {
+        val route = destination.route
+        // Log the navigation event to Flipper
+        flipperPlugin.sendNavigationEvent(route, controller.currentDestinationClassName(), null)
+    }
+}
 @Composable
 fun NavGraph(
     navController: NavHostController,
     modifier: Modifier,
     activity: Activity,
 ) {
+
+    val flipperPlugin = NavigationFlipperPlugin.getInstance()
+    val flipperLogger = FlipperNavigationLogger(flipperPlugin)
+    navController.addOnDestinationChangedListener(flipperLogger)
 
     NavHost(navController, startDestination = NavigationScreen.Home.route, modifier) {
         composable(NavigationScreen.Home.route) {

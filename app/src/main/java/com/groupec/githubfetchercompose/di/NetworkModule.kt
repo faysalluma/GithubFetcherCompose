@@ -15,5 +15,5 @@ import javax.inject.Singleton
 internal class NetworkModule  {
     @Singleton
     @Provides
-    fun provideSampleApiInterface(@ApplicationContext context: Context) = ApiClient.buildClient().create(SampleApiInterface::class.java)
+    fun provideSampleApiInterface(@ApplicationContext context: Context) = ApiClient.buildClient(context).create(SampleApiInterface::class.java)
 }

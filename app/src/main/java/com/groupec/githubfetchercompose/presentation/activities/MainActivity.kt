@@ -11,9 +11,7 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.groupec.githubfetchercompose.presentation.navigation.*
 import com.groupec.githubfetchercompose.presentation.theme.MainTheme
@@ -21,7 +19,6 @@ import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.groupec.githubfetchercompose.R
@@ -117,8 +114,7 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     private fun getCurrentScreen(navController: NavController): NavigationScreen? {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        return when (navBackStackEntry?.destination?.route?.substringBeforeLast("/")?.substringBeforeLast("?")) {
+        return when (navController.currentDestination?.route?.substringBeforeLast("/")?.substringBeforeLast("?")) {
             NavigationScreen.Home.route -> NavigationScreen.Home
             NavigationScreen.Detail.route -> NavigationScreen.Detail
             else -> null

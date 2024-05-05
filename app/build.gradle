@@ -129,6 +129,12 @@ dependencies {
     //To display Images from URL
     implementation "io.coil-kt:coil-compose:2.4.0"
 
+    // Flipper
+    debugImplementation 'com.facebook.flipper:flipper:0.183.0'
+    debugImplementation 'com.facebook.soloader:soloader:0.10.5'
+    releaseImplementation 'com.facebook.flipper:flipper-noop:0.183.0'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.183.0'
+
     // Unit Tests
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
